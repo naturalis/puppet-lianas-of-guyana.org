@@ -35,7 +35,7 @@
 #
 # 
 #
-class lianasofguyana {
+class lianasofguyana (
   $backmeup = false,
   $backuphour = 1,
   $backupminute = 1,
@@ -54,20 +54,10 @@ class lianasofguyana {
   $repotype = 'svn',
   $coderoot = '/var/www/lianasofguyana',
   $webdirs = ['/var/www/lianasofguyana',
-              '/var/www/lianasofguyana/www',
-              '/var/www/lianasofguyana/www/admin',
-              '/var/www/lianasofguyana/www/admin/templates',
-              '/var/www/lianasofguyana/www/app',
-              '/var/www/lianasofguyana/www/app/templates',
-              '/var/www/lianasofguyana/www/shared',
-              '/var/www/lianasofguyana/www/shared/media'],
-  $rwwebdirs = ['/var/www/lianasofguyana/www/app/templates/templates_c',
-                '/var/www/lianasofguyana/www/app/templates/cache',
-                '/var/www/lianasofguyana/www/shared/cache',
-                '/var/www/lianasofguyana/www/shared/media/project',
-                '/var/www/lianasofguyana/log/',
-                '/var/www/lianasofguyana/www/admin/templates/templates_c',
-                '/var/www/lianasofguyana/www/admin/templates/cache'],
+              '/var/www/lianasofguyana/admin',
+              '/var/www/lianasofguyana/templates'],
+  $rwwebdirs = ['/var/www/lianasofguyana/log/',
+                '/var/www/lianasofguyana/cache'],
 ) {
 
   include concat::setup
@@ -156,6 +146,5 @@ class lianasofguyana {
       pubkey_id   => $pubkey_id,
     }
   }
-
 
 }

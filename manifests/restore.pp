@@ -23,18 +23,18 @@ class lianasofguyana::restore (
     dest_key       => $dest_key,
     cloud          => $cloud,
     pubkey_id      => $pubkey_id,
-    post_command   => '/usr/local/sbin/configrestore.sh && /usr/local/sbin/mysqlrestore.sh',
+    post_command   => '/usr/local/sbin/filerestore.sh && /usr/local/sbin/mysqlrestore.sh',
   }
 
-  file { "/usr/local/sbin/configrestore.sh":
-    content => template('lianas-of-guyana.org/configrestore.sh.erb'),
+  file { "/usr/local/sbin/filerestore.sh":
+    content => template('lianasofguyana/filerestore.sh.erb'),
     mode    => '0700',
   }
 
   exec { 'duplicityrestore.sh':
     command => '/bin/bash /usr/local/sbin/duplicityrestore.sh',
     path => '/usr/local/sbin:/usr/bin:/usr/sbin:/bin',
-    require => File['/usr/local/sbin/duplicityrestore.sh','/usr/local/sbin/configrestore.sh','/usr/local/sbin/mysqlrestore.sh'],
+    require => File['/usr/local/sbin/duplicityrestore.sh','/usr/local/sbin/filerestore.sh','/usr/local/sbin/mysqlrestore.sh'],
   }
 
   exec { 'mysqlrestore.sh':
@@ -43,8 +43,8 @@ class lianasofguyana::restore (
     require => Exec['duplicityrestore.sh'],
   }
 
-  exec { 'configrestore.sh':
-    command => '/bin/bash /usr/local/sbin/configrestore.sh',
+  exec { 'filerestore.sh':
+    command => '/bin/bash /usr/local/sbin/filerestore.sh',
     path => '/usr/local/sbin:/usr/bin:/usr/sbin:/bin',
     require => Exec['duplicityrestore.sh'],
   }

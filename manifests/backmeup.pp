@@ -26,12 +26,12 @@ class lianasofguyana::backmeup (
     minute             => $backupminute,
     full_if_older_than => $full_if_older_than,
     remove_older_than  => $remove_older_than,
-    pre_command        => '/usr/local/sbin/configbackup.sh && /usr/local/sbin/mysqlbackup.sh',
+    pre_command        => '/usr/local/sbin/filebackup.sh && /usr/local/sbin/mysqlbackup.sh',
     require            => Class['mysql::backup'],
   }
 
-  file { "/usr/local/sbin/configbackup.sh":                                                                                                                                        
-    content => template('lianas-of-guyana.org/configbackup.sh.erb'),                                                                                                                                    
+  file { "/usr/local/sbin/filebackup.sh":                                                                                                                                        
+    content => template('lianasofguyana/filebackup.sh.erb'),                                                                                                                                    
     mode    => '0700',                                                                                                                                                                  
   }                                                                                                                                                                                     
                                                                                                                                                                                 
