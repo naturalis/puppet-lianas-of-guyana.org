@@ -50,8 +50,8 @@ class lianasofguyana (
   $pubkey_id = undef,
   $full_if_older_than = undef,
   $remove_older_than = undef,
-  $coderepo = 'svn://dev2.etibioinformatics.nl/linnaeus_ng/trunk',
-  $repotype = 'svn',
+#  $coderepo = 'svn://dev2.etibioinformatics.nl/linnaeus_ng/trunk',
+#  $repotype = 'svn',
   $coderoot = '/var/www/lianasofguyana',
   $webdirs = ['/var/www/lianasofguyana',
               '/var/www/lianasofguyana/admin',
@@ -82,16 +82,16 @@ class lianasofguyana (
     host_aliases => [ $hostname ],
   }
 
-  package { 'subversion':
-    ensure => installed,
-  }
+#  package { 'subversion':
+#    ensure => installed,
+#  }
 
-  vcsrepo { $coderoot:
-    ensure   => latest,
-    provider => $repotype,
-    source   => $coderepo,
-    require  => [ Package['subversion'],Host['localhost'] ],
-  }
+#  vcsrepo { $coderoot:
+#    ensure   => latest,
+#    provider => $repotype,
+#    source   => $coderepo,
+#    require  => [ Package['subversion'],Host['localhost'] ],
+# }
 
   file { 'backupdir':
     ensure => 'directory',
@@ -104,7 +104,7 @@ class lianasofguyana (
   file { $webdirs:
     ensure      => 'directory',
     mode        => '0755',
-    require     => Vcsrepo[$coderoot],
+#    require     => Vcsrepo[$coderoot],
   }
 
   file { $rwwebdirs:
