@@ -36,7 +36,7 @@
 # 
 #
 class lianasofguyana (
-  $backmeup = false,
+  $backup = false,
   $backuphour = 1,
   $backupminute = 1,
   $autorestore = true,
@@ -50,18 +50,12 @@ class lianasofguyana (
   $pubkey_id = undef,
   $full_if_older_than = undef,
   $remove_older_than = undef,
-#  $coderepo = 'svn://dev2.etibioinformatics.nl/linnaeus_ng/trunk',
-#  $repotype = 'svn',
   $coderoot = '/var/www/lianasofguyana',
-  $webdirs = ['/var/www/lianasofguyana',
-              '/var/www/lianasofguyana/admin',
-              '/var/www/lianasofguyana/templates'],
-  $rwwebdirs = ['/var/www/lianasofguyana/log/',
-                '/var/www/lianasofguyana/cache'],
+  $webdirs = ['/var/www/lianasofguyana'],
+  $rwwebdirs = [''],
 ) {
 
   include concat::setup
-  include mysql::php
 
   class { 'apache':
     default_mods => true,
@@ -82,17 +76,6 @@ class lianasofguyana (
     host_aliases => [ $hostname ],
   }
 
-#  package { 'subversion':
-#    ensure => installed,
-#  }
-
-#  vcsrepo { $coderoot:
-#    ensure   => latest,
-#    provider => $repotype,
-#    source   => $coderepo,
-#    require  => [ Package['subversion'],Host['localhost'] ],
-# }
-
   file { 'backupdir':
     ensure => 'directory',
     path   => $backupdir,
@@ -112,17 +95,9 @@ class lianasofguyana (
     mode        => '0777',
     require     => File[$webdirs],
   }
-                                                                                                                                                                                                       
-  if ($backmeup == true) or ($autorestore == true) {
-    class { 'mysql::backup':                                                                                                                                                                                           
-      backupuser     => 'myuser',                                                                                                                                                                                      
-      backuppassword => 'mypassword',                                                                                                                                                                                  
-      backupdir      => $backupdir,                                                                                                                                                                                    
-    }     
-  }
 
-  if $backmeup == true {
-    class { 'lianasofguyana::backmeup':
+  if $backup == true {
+    class { 'lianasofguyana::backup':
       backuphour         => $backuphour,
       backupminute       => $backupminute,
       backupdir          => $backupdir,

@@ -23,7 +23,7 @@ class lianasofguyana::restore (
     dest_key       => $dest_key,
     cloud          => $cloud,
     pubkey_id      => $pubkey_id,
-    post_command   => '/usr/local/sbin/filerestore.sh && /usr/local/sbin/mysqlrestore.sh',
+    post_command   => '/usr/local/sbin/filerestore.sh',
   }
 
   file { "/usr/local/sbin/filerestore.sh":
@@ -34,13 +34,7 @@ class lianasofguyana::restore (
   exec { 'duplicityrestore.sh':
     command => '/bin/bash /usr/local/sbin/duplicityrestore.sh',
     path => '/usr/local/sbin:/usr/bin:/usr/sbin:/bin',
-    require => File['/usr/local/sbin/duplicityrestore.sh','/usr/local/sbin/filerestore.sh','/usr/local/sbin/mysqlrestore.sh'],
-  }
-
-  exec { 'mysqlrestore.sh':
-    command => '/bin/bash /usr/local/sbin/mysqlrestore.sh',
-    path => '/usr/local/sbin:/usr/bin:/usr/sbin:/bin',
-    require => Exec['duplicityrestore.sh'],
+    require => File['/usr/local/sbin/duplicityrestore.sh','/usr/local/sbin/filerestore.sh'],
   }
 
   exec { 'filerestore.sh':
