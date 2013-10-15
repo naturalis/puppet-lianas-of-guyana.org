@@ -52,7 +52,9 @@ class lianasofguyana (
   $remove_older_than = undef,
   $coderoot = '/var/www/lianasofguyana',
   $webdirs = ['/var/www/lianasofguyana'],
-  $rwwebdirs = [''],
+  $ftpserver = false,
+  $ftpbanner = 'lianas of guyana FTP server',
+  $ftpusers = undef,
 ) {
 
   include concat::setup
@@ -66,9 +68,6 @@ class lianasofguyana (
 
   # Create all virtual hosts from hiera
   class { 'lianasofguyana::instances': }
-
-  # Create mysql server
-  include mysql::server
 
   # Add hostname to /etc/hosts, svn checkout requires a resolvable hostname
   host { 'localhost':
@@ -87,13 +86,14 @@ class lianasofguyana (
   file { $webdirs:
     ensure      => 'directory',
     mode        => '0755',
-#    require     => Vcsrepo[$coderoot],
   }
 
-  file { $rwwebdirs:
-    ensure      => 'directory',
-    mode        => '0777',
-    require     => File[$webdirs],
+  if $ftpserver == true {
+    class { 'lianasofguyana::ftpserver':
+      ftpd_banner        => $ftpd_banner,
+      ftpuserrootdirs    => ['/var','/var/www','/var/www/lianasofguyana'],
+      ftpusers		 => $ftpusers,
+    }
   }
 
   if $backup == true {

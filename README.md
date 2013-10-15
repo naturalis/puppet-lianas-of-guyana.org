@@ -11,11 +11,15 @@ All parameters are read from hiera
 
 Classes
 -------------
-- 
+- vsftpd
+- apache
+- duplicity
 
 Dependencies
 -------------
-- 
+- thias/puppet-vsftpd Release 0.2.0
+- apache2 module from puppetlabs
+- Jimdo/puppet-duplicity
 
 Examples
 -------------
@@ -29,7 +33,7 @@ lianasofguyana:
     port: 80
     ssl: no
     serveradmin: aut@naturalis.nl
-lianasofguyana::backmeup: true
+lianasofguyana::backup: true
 lianasofguyana::backuphour: 3
 lianasofguyana::backupminute: 3
 lianasofguyana::backupdir: '/tmp/backups'
@@ -37,8 +41,13 @@ lianasofguyana::dest_id: 'provider_id'
 lianasofguyana::dest_key: 'provider_key'
 lianasofguyana::bucket: 'lianasofguyana'
 lianasofguyana::autorestore: true
-lianasofguyana::restoreversion: 'latest'
-lianasofguyana::coderoot: '/var/www/lianasofguyana'      
+lianasofguyana::ftpserver: true
+lianasofguyana::ftpusers:
+  wwwlianas-of-guyana:
+    comment: "FTP User"
+    home: "/var/www/lianasofguyana"
+    password: "$1$A6ZSNQVG$hnRIP/LfJQNRyuEAwmssK/"
+
 ```
 Puppet code
 ```
@@ -46,14 +55,14 @@ class { lianasofguyana: }
 ```
 Result
 -------------
-Working webserver, restored from latest backup version. with daily backup. 
+Working webserver, restored from latest backup version. with daily backup and FTP server access.
 
 Limitations
 -------------
-This module has been built on and tested against Puppet ... and higher.
+This module has been built on and tested against Puppet 3 and higher.
 
 The module has been tested on:
-- 
+- Ubuntu 12.04LTS
 - 
 
 Authors
