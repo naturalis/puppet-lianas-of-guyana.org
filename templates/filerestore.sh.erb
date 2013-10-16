@@ -1,6 +1,8 @@
 #/bin/sh
 rsync -r /tmp/restore/files/ /var/www/
-
+find /var/www -type f | xargs chmod -v 664
+find /var/www -type d | xargs chmod -v 775
+chown -R root:webusers /var/www
 
 
 

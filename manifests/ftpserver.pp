@@ -25,10 +25,6 @@ class lianasofguyana::ftpserver (
     content	=> template('lianasofguyana/vsftpd.chroot_list.erb'),
   }
 
-  group { 'ftpusers':
-    ensure	=> present,
-  }
-
   class { 'vsftpd':
     anonymous_enable  => $anonymous_enable,
     write_enable      => $write_enable,

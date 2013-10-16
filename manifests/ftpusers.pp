@@ -36,7 +36,7 @@
 define lianasofguyana::ftpusers(
   $comment = '',
   $username = $title,
-  $groups = 'ftpusers',
+  $groups = 'webusers',
   $home = undef,
   $password = undef,
 ) {
@@ -46,12 +46,6 @@ define lianasofguyana::ftpusers(
     path 	=> "/usr/local/bin/:/bin/",
     require 	=> File['/etc/vsftpd.chroot_list'],
   }
-
-#  file { $home:
-#    ensure	=> 'directory',
-#    owner	=> $title,
-#    mode	=> 0770,
-# }
 
   user { $username:
     ensure      => present,

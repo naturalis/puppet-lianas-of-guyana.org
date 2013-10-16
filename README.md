@@ -1,9 +1,7 @@
 puppet-lianas-of-guyana.org
 ===================
 
-Puppet module to install 
-
-For more information using this tool: 
+Puppet modules for deployment of www.lianas-of-guyana.org. 
 
 Parameters
 -------------
@@ -40,7 +38,6 @@ lianasofguyana::backupdir: '/tmp/backups'
 lianasofguyana::dest_id: 'provider_id'
 lianasofguyana::dest_key: 'provider_key'
 lianasofguyana::bucket: 'lianasofguyana'
-lianasofguyana::autorestore: true
 lianasofguyana::ftpserver: true
 lianasofguyana::ftpusers:
   wwwlianas-of-guyana:

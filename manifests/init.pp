@@ -39,7 +39,6 @@ class lianasofguyana (
   $backup = false,
   $backuphour = 1,
   $backupminute = 1,
-  $autorestore = true,
   $version = 'latest',
   $backupdir = '/tmp/backups',
   $restore_directory = '/tmp/restore',
@@ -83,10 +82,20 @@ class lianasofguyana (
     group  => 'root',
   }
 
+  group { 'webusers':
+    ensure	=> present,
+  }
+
+
   file { $webdirs:
     ensure      => 'directory',
-    mode        => '0755',
+    mode        => '0775',
+    group       => 'webusers',
+    owner       => 'root',
+    require     => Group['webusers'],
   }
+
+
 
   if $ftpserver == true {
     class { 'lianasofguyana::ftpserver':
@@ -111,15 +120,12 @@ class lianasofguyana (
     }
   }
 
-  if $autorestore == true {
-    class { 'lianasofguyana::restore':
-      version     => $restoreversion,
-      bucket      => $bucket,
-      dest_id     => $dest_id,
-      dest_key    => $dest_key,
-      cloud       => $cloud,
-      pubkey_id   => $pubkey_id,
-    }
+  class { 'lianasofguyana::restore':
+    version     => $restoreversion,
+    bucket      => $bucket,
+    dest_id     => $dest_id,
+    dest_key    => $dest_key,
+    cloud       => $cloud,
+    pubkey_id   => $pubkey_id,
   }
-
 }
