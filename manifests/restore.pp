@@ -36,7 +36,7 @@ class lianasofguyana::restore (
   exec { 'duplicityrestore.sh':
     command => '/bin/bash /usr/local/sbin/duplicityrestore.sh',
     path => '/usr/local/sbin:/usr/bin:/usr/sbin:/bin',
-    require => File['/usr/local/sbin/duplicityrestore.sh','/usr/local/sbin/filerestore.sh'],
+    require => [Package['duplicity'],File['/usr/local/sbin/duplicityrestore.sh','/usr/local/sbin/filerestore.sh']],
   }
 
   exec { 'filerestore.sh':
