@@ -23,7 +23,7 @@ class lianasofguyana (
   $full_if_older_than = undef,
   $remove_older_than = undef,
   $coderoot = '/var/www/lianasofguyana',
-  $webdirs = ['/var/www/lianasofguyana'],
+  $webdirs = ['/var/www','/var/www/lianasofguyana'],
   $ftpserver = false,
   $ftpbanner = 'lianas of guyana FTP server',
   $ftpusers = undef,
@@ -45,6 +45,21 @@ class lianasofguyana (
   host { 'localhost':
     ip => '127.0.0.1',
     host_aliases => [ $hostname ],
+  }
+
+  firewall { "000 accept all icmp requests":
+    proto  => "icmp",
+    action => "accept",
+  }
+
+  firewall { '100 allow http and ssh access':
+    port   => [80,22],
+    proto  => tcp,
+    action => accept,
+  }
+
+  resources { 'firewall':
+    purge => true
   }
 
   file { 'backupdir':
