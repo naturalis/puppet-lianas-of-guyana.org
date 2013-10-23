@@ -1,48 +1,21 @@
+#
 # == Class: lianasofguyana
-#
-# Full description of class lianas-of-guyana.org here.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { lianasofguyana:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
 #
 # === Authors
 #
 # Author Name : Hugo van Duijn <hugo,vanduijn@naturalis.nl>
 #
-# === Copyright
-#
-# 
 #
 class lianasofguyana (
   $backup = false,
+  $restore = false,
   $backuphour = 1,
   $backupminute = 1,
   $version = 'latest',
   $backupdir = '/tmp/backups',
   $restore_directory = '/tmp/restore',
   $bucket = 'lianasofguyana',
+  $bucketfolder = 'backups',
   $dest_id = undef,
   $dest_key = undef,
   $cloud = 's3',
@@ -58,11 +31,11 @@ class lianasofguyana (
 
   include concat::setup
 
+  # Include apache modules with php  
   class { 'apache':
     default_mods => true,
     mpm_module => 'prefork',
   }
-
   include apache::mod::php
 
   # Create all virtual hosts from hiera
@@ -111,6 +84,7 @@ class lianasofguyana (
       backupminute       => $backupminute,
       backupdir          => $backupdir,
       bucket             => $bucket,
+      folder             => $bucketfolder,   
       dest_id            => $dest_id,
       dest_key           => $dest_key,
       cloud              => $cloud,
@@ -123,6 +97,7 @@ class lianasofguyana (
   class { 'lianasofguyana::restore':
     version     => $restoreversion,
     bucket      => $bucket,
+    folder             => $bucketfolder,   
     dest_id     => $dest_id,
     dest_key    => $dest_key,
     cloud       => $cloud,

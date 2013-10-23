@@ -4,6 +4,7 @@ class lianasofguyana::restore (
   $version = undef,
   $restore_directory = '/tmp/restore/',
   $bucket = undef,
+  $folder = undef,
   $dest_id = undef,
   $dest_key = undef,
   $cloud = undef,
@@ -16,9 +17,10 @@ class lianasofguyana::restore (
     ensure => present,
   }
 
-  duplicity::restore { 'backup':
+  duplicity::restore { 'data':
     directory      => $restore_directory,
     bucket         => $bucket,
+    folder	   => $folder,
     dest_id        => $dest_id,
     dest_key       => $dest_key,
     cloud          => $cloud,

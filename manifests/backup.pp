@@ -5,6 +5,7 @@ class lianasofguyana::backup (
   $backupminute = undef,
   $backupdir = undef,
   $bucket = undef,
+  $folder = undef,
   $dest_id = undef,
   $dest_key = undef,
   $cloud = undef,
@@ -15,9 +16,10 @@ class lianasofguyana::backup (
 {
   notify {'Backup enabled':}
 
-  duplicity { 'backup':
+  duplicity { 'data':
     directory          => $backupdir,
     bucket             => $bucket,
+    folder	       => $folder,
     dest_id            => $dest_id,
     dest_key           => $dest_key,
     cloud              => $cloud,
